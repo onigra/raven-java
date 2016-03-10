@@ -10,6 +10,7 @@ import com.getsentry.raven.event.Event;
 import com.getsentry.raven.event.EventBuilder;
 import com.getsentry.raven.event.interfaces.ExceptionInterface;
 import com.getsentry.raven.event.interfaces.StackTraceInterface;
+import com.google.common.base.Strings;
 import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.Level;
 import org.apache.log4j.spi.ErrorCode;
@@ -171,7 +172,7 @@ public class SentryAppender extends AppenderSkeleton {
                 .withLevel(formatLevel(loggingEvent.getLevel()))
                 .withExtra(THREAD_NAME, loggingEvent.getThreadName());
 
-        if (release != null && release.trim().length() > 0) {
+        if (!Strings.isNullOrEmpty(release)) {
             eventBuilder.withRelease(release.trim());
         }
 
