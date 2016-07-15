@@ -15,7 +15,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class RavenContextTest {
 
-    @Test
+    @Test(enabled = false)
     public void testActivateDeactivate() {
         RavenContext context = new RavenContext();
 
