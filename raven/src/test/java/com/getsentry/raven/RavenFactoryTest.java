@@ -1,16 +1,20 @@
 package com.getsentry.raven;
 
-import mockit.*;
 import com.getsentry.raven.dsn.Dsn;
+import com.getsentry.test.EmptyIterator;
+import mockit.Delegate;
+import mockit.Injectable;
+import mockit.Mocked;
+import mockit.NonStrictExpectations;
+import mockit.Tested;
+import mockit.Verifications;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.ServiceLoader;
 
 import static mockit.Deencapsulation.setField;
@@ -30,14 +34,14 @@ public class RavenFactoryTest {
 
         new NonStrictExpectations() {{
             mockServiceLoader.iterator();
-            result = Collections.emptyIterator();
+            result = new EmptyIterator<Object>();
         }};
     }
 
     @AfterMethod
     public void tearDown() throws Exception {
         // Reset the registered factories
-        setField(RavenFactory.class, "MANUALLY_REGISTERED_FACTORIES", new HashSet<>());
+        setField(RavenFactory.class, "MANUALLY_REGISTERED_FACTORIES", new HashSet<Object>());
         setField(RavenFactory.class, "AUTO_REGISTERED_FACTORIES", ServiceLoader.load(RavenFactory.class));
     }
 

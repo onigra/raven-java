@@ -63,11 +63,11 @@ public class Event implements Serializable {
      * <p>
      * Automatically created with a Map that is made unmodifiable by the {@link EventBuilder}.
      */
-    private Map<String, String> tags = new HashMap<>();
+    private Map<String, String> tags = new HashMap<String, String>();
     /**
      * List of Breadcrumb objects related to the event.
      */
-    private List<Breadcrumb> breadcrumbs = new ArrayList<>();
+    private List<Breadcrumb> breadcrumbs = new ArrayList<Breadcrumb>();
     /**
      * Identifies the host client from which the event was recorded.
      */
@@ -84,7 +84,7 @@ public class Event implements Serializable {
      * This transient map may contain objects which aren't serializable. They will be automatically be taken care of
      * by {@link #readObject(ObjectInputStream)} and {@link #writeObject(ObjectOutputStream)}.
      */
-    private transient Map<String, Object> extra = new HashMap<>();
+    private transient Map<String, Object> extra = new HashMap<String, Object>();
 
     /**
      * Event fingerprint, a list of strings used to dictate the deduplicating for this event.
@@ -99,7 +99,7 @@ public class Event implements Serializable {
      * <p>
      * Automatically created with a Map that is made unmodifiable by the {@link EventBuilder}.
      */
-    private Map<String, SentryInterface> sentryInterfaces = new HashMap<>();
+    private Map<String, SentryInterface> sentryInterfaces = new HashMap<String, SentryInterface>();
 
     /**
      * Creates a new Event (should be called only through {@link EventBuilder} with the specified identifier.
@@ -251,8 +251,8 @@ public class Event implements Serializable {
      * @return A serializable map which contains only serializable entries.
      */
     //CHECKSTYLE.OFF: IllegalType
-    private static HashMap<String, ? super Serializable> convertToSerializable(Map<String, Object> objectMap) {
-        HashMap<String, ? super Serializable> serializableMap = new HashMap<>(objectMap.size());
+    private static HashMap<String, Serializable> convertToSerializable(Map<String, Object> objectMap) {
+        HashMap<String, Serializable> serializableMap = new HashMap<String, Serializable>(objectMap.size());
         for (Map.Entry<String, Object> objectEntry : objectMap.entrySet()) {
             if (objectEntry.getValue() instanceof Serializable)
                 serializableMap.put(objectEntry.getKey(), (Serializable) objectEntry.getValue());

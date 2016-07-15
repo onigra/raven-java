@@ -1,5 +1,6 @@
 package com.getsentry.raven.event.interfaces;
 
+import com.getsentry.test.EmptyEnumeration;
 import mockit.Injectable;
 import mockit.NonStrictExpectations;
 import org.testng.annotations.BeforeMethod;
@@ -55,9 +56,9 @@ public class HttpInterfaceTest {
             mockHttpServletRequest.getRemoteUser();
             result = "remoteUser";
             mockHttpServletRequest.getHeaderNames();
-            result = Collections.emptyEnumeration();
+            result = new EmptyEnumeration<Object>();
             mockHttpServletRequest.getHeaders(anyString);
-            result = Collections.emptyEnumeration();
+            result = new EmptyEnumeration<Object>();
         }};
     }
 

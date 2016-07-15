@@ -1,17 +1,19 @@
 package com.getsentry.raven.connection;
 
-import mockit.*;
 import com.getsentry.raven.event.Event;
+import mockit.Deencapsulation;
+import mockit.Injectable;
+import mockit.Mocked;
+import mockit.NonStrictExpectations;
+import mockit.Tested;
+import mockit.Verifications;
 import org.testng.annotations.Test;
 
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 
-import static mockit.Deencapsulation.getField;
 import static mockit.Deencapsulation.setField;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -80,7 +82,7 @@ public class AbstractConnectionTest {
 
         abstractConnection.send(mockEvent);
 
-        long waitingTimeAfter = getField(abstractConnection, "waitingTime");
+        long waitingTimeAfter = Deencapsulation.<Long>getField(abstractConnection, "waitingTime");
         assertThat(waitingTimeAfter, is(AbstractConnection.DEFAULT_BASE_WAITING_TIME * 2));
         new Verifications() {{
             Thread.sleep(AbstractConnection.DEFAULT_BASE_WAITING_TIME);
@@ -97,7 +99,7 @@ public class AbstractConnectionTest {
 
         abstractConnection.send(mockEvent);
 
-        long waitingTimeAfter = getField(abstractConnection, "waitingTime");
+        long waitingTimeAfter = Deencapsulation.<Long>getField(abstractConnection, "waitingTime");
         assertThat(waitingTimeAfter, is(AbstractConnection.DEFAULT_MAX_WAITING_TIME));
         new Verifications() {{
             Thread.sleep(AbstractConnection.DEFAULT_MAX_WAITING_TIME);
@@ -115,7 +117,7 @@ public class AbstractConnectionTest {
             }
 
         };
-        HashSet<EventSendFailureCallback> callbacks = new HashSet<>();
+        HashSet<EventSendFailureCallback> callbacks = new HashSet<EventSendFailureCallback>();
         callbacks.add(callback);
 
         setField(abstractConnection, "eventSendFailureCallbacks", callbacks);

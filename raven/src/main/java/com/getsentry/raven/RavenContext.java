@@ -3,6 +3,7 @@ package com.getsentry.raven;
 import com.getsentry.raven.event.Breadcrumb;
 import com.getsentry.raven.util.CircularFifoQueue;
 
+import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.IdentityHashMap;
@@ -14,7 +15,7 @@ import java.util.List;
  * {@link Breadcrumb}s) so that data may be collected in different parts
  * of an application and then sent together when an exception occurs.
  */
-public class RavenContext implements AutoCloseable {
+public class RavenContext implements Closeable {
 
     /**
      * Thread local set of active context objects. Note that an {@link IdentityHashMap}
@@ -33,7 +34,7 @@ public class RavenContext implements AutoCloseable {
         new ThreadLocal<IdentityHashMap<RavenContext, RavenContext>>() {
             @Override
             protected IdentityHashMap<RavenContext, RavenContext> initialValue() {
-                return new IdentityHashMap<>();
+                return new IdentityHashMap<RavenContext, RavenContext>();
             }
     };
 
@@ -60,7 +61,7 @@ public class RavenContext implements AutoCloseable {
      * @param breadcrumbLimit Number of Breadcrumb objects to retain in ring buffer.
      */
     public RavenContext(int breadcrumbLimit) {
-        breadcrumbs = new CircularFifoQueue<>(breadcrumbLimit);
+        breadcrumbs = new CircularFifoQueue<Breadcrumb>(breadcrumbLimit);
     }
 
     /**
@@ -85,7 +86,7 @@ public class RavenContext implements AutoCloseable {
     }
 
     /**
-     * Calls deactivate, used by try-with-resources ({@link AutoCloseable}).
+     * Calls deactivate.
      */
     @Override
     public void close() {
@@ -99,7 +100,7 @@ public class RavenContext implements AutoCloseable {
      */
     public static List<RavenContext> getActiveContexts() {
         Collection<RavenContext> ravenContexts = activeContexts.get().values();
-        List<RavenContext> list = new ArrayList<>(ravenContexts.size());
+        List<RavenContext> list = new ArrayList<RavenContext>(ravenContexts.size());
         list.addAll(ravenContexts);
         return list;
     }

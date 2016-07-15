@@ -62,7 +62,7 @@ public abstract class AbstractConnection implements Connection {
      * @param secretKey secret key (password) to the Sentry server.
      */
     protected AbstractConnection(String publicKey, String secretKey) {
-        eventSendFailureCallbacks = new HashSet<>();
+        eventSendFailureCallbacks = new HashSet<EventSendFailureCallback>();
         authHeader = "Sentry sentry_version=" + SENTRY_PROTOCOL_VERSION + ","
                 + "sentry_client=" + RavenEnvironment.NAME + ","
                 + "sentry_key=" + publicKey + ","

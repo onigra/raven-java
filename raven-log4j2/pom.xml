@@ -15,6 +15,10 @@
     <description>log4j2 appender allowing to send logs to the Raven-Java client.</description>
 
     <properties>
+        <!-- maven-compiler-plugin config -->
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+
         <log4j2.version>2.5</log4j2.version>
     </properties>
 

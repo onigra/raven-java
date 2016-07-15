@@ -1,22 +1,27 @@
 package com.getsentry.raven.marshaller.json;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.getsentry.raven.event.Breadcrumb;
-import com.getsentry.raven.util.Base64;
-import com.getsentry.raven.util.Base64OutputStream;
-import com.getsentry.raven.event.Event;
-import com.getsentry.raven.event.interfaces.SentryInterface;
-import com.getsentry.raven.marshaller.Marshaller;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
+import java.util.UUID;
 import java.util.zip.DeflaterOutputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.getsentry.raven.event.Breadcrumb;
+import com.getsentry.raven.event.Event;
+import com.getsentry.raven.event.interfaces.SentryInterface;
+import com.getsentry.raven.marshaller.Marshaller;
+import com.getsentry.raven.util.Base64;
+import com.getsentry.raven.util.Base64OutputStream;
 
 /**
  * Event marshaller using JSON to send the data.
@@ -103,7 +108,8 @@ public class JsonMarshaller implements Marshaller {
 
     private static final Logger logger = LoggerFactory.getLogger(JsonMarshaller.class);
     private final JsonFactory jsonFactory = new JsonFactory();
-    private final Map<Class<? extends SentryInterface>, InterfaceBinding<?>> interfaceBindings = new HashMap<>();
+    private final Map<Class<? extends SentryInterface>, InterfaceBinding<?>> interfaceBindings =
+          new HashMap<Class<? extends SentryInterface>, InterfaceBinding<?>>();
     /**
      * Enables disables the compression of JSON.
      */
@@ -117,8 +123,13 @@ public class JsonMarshaller implements Marshaller {
         if (compression)
             destination = new DeflaterOutputStream(new Base64OutputStream(destination, Base64.NO_WRAP));
 
-        try (JsonGenerator generator = jsonFactory.createGenerator(destination)) {
-            writeContent(generator, event);
+        try {
+            JsonGenerator generator = jsonFactory.createGenerator(destination);
+            try {
+                writeContent(generator, event);
+            } finally {
+                generator.close();
+            }
         } catch (IOException e) {
             logger.error("An exception occurred while serialising the event.", e);
         }

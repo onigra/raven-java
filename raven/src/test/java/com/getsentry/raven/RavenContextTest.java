@@ -2,7 +2,6 @@ package com.getsentry.raven;
 
 import com.getsentry.raven.event.Breadcrumb;
 import com.getsentry.raven.event.BreadcrumbBuilder;
-import org.hamcrest.Matchers;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ public class RavenContextTest {
 
         context.activate();
 
-        List<RavenContext> match = new ArrayList<>(1);
+        List<RavenContext> match = new ArrayList<RavenContext>(1);
         match.add(context);
         assertThat(RavenContext.getActiveContexts(), equalTo(match));
 
@@ -43,10 +42,10 @@ public class RavenContextTest {
             .build();
         context.recordBreadcrumb(breadcrumb);
 
-        List<Breadcrumb> breadcrumbMatch = new ArrayList<>();
+        List<Breadcrumb> breadcrumbMatch = new ArrayList<Breadcrumb>();
         breadcrumbMatch.add(breadcrumb);
 
-        List<Breadcrumb> breadcrumbs = new ArrayList<>();
+        List<Breadcrumb> breadcrumbs = new ArrayList<Breadcrumb>();
         Iterator<Breadcrumb> iter = context.getBreadcrumbs();
         while (iter.hasNext()) {
             breadcrumbs.add(iter.next());
@@ -73,10 +72,10 @@ public class RavenContextTest {
         context.recordBreadcrumb(breadcrumb1);
         context.recordBreadcrumb(breadcrumb2);
 
-        List<Breadcrumb> breadcrumbMatch = new ArrayList<>();
+        List<Breadcrumb> breadcrumbMatch = new ArrayList<Breadcrumb>();
         breadcrumbMatch.add(breadcrumb2);
 
-        List<Breadcrumb> breadcrumbs = new ArrayList<>();
+        List<Breadcrumb> breadcrumbs = new ArrayList<Breadcrumb>();
         Iterator<Breadcrumb> iter = context.getBreadcrumbs();
         while (iter.hasNext()) {
             breadcrumbs.add(iter.next());

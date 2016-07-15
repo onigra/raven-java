@@ -224,7 +224,7 @@ public class JsonMarshallerTest {
             .setMessage("test2")
             .build();
 
-        final List<Breadcrumb> breadcrumbs = new ArrayList<>();
+        final List<Breadcrumb> breadcrumbs = new ArrayList<Breadcrumb>();
         breadcrumbs.add(breadcrumb1);
         breadcrumbs.add(breadcrumb2);
 
