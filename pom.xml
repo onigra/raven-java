@@ -537,6 +537,7 @@
                         <version>1.6.5</version>
                         <extensions>true</extensions>
                         <configuration>
+                            <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
                             <serverId>sonatype-nexus-staging</serverId>
                             <nexusUrl>https://oss.sonatype.org/</nexusUrl>
                             <autoReleaseAfterClose>true</autoReleaseAfterClose>
