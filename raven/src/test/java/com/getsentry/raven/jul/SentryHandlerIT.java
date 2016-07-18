@@ -1,15 +1,14 @@
 package com.getsentry.raven.jul;
 
-import com.getsentry.raven.stub.SentryStub;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import com.getsentry.raven.stub.SentryStub;
 
 public class SentryHandlerIT {
     private static final Logger logger = Logger.getLogger(SentryHandlerIT.class.getName());
@@ -18,6 +17,7 @@ public class SentryHandlerIT {
     @BeforeMethod
     public void setUp() throws Exception {
         sentryStub = new SentryStub();
+        sentryStub.removeEvents();
     }
 
     @AfterMethod
