@@ -10,7 +10,7 @@
 
     <groupId>com.getsentry.raven</groupId>
     <artifactId>raven-all</artifactId>
-    <version>7.4.1-SNAPSHOT</version>
+    <version>7.4.0.1-JDK6-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Raven-Java</name>
@@ -97,18 +97,27 @@
     </ciManagement>
 
     <distributionManagement>
-        <site>
-            <id>github-pages-site</id>
-            <name>Deployment through GitHub's site deployment plugin</name>
-            <url>site/${project.version}</url>
-        </site>
+    		<repository>
+    			<id>vidal-third-party-releases</id>
+    			<url>http://nexus.vidal.net/content/repositories/vidal-3rd-party-releases/</url>
+    		</repository>
+    		<snapshotRepository>
+    			<id>vidal-snapshots</id>
+    			<uniqueVersion>true</uniqueVersion>
+    			<url>http://nexus.vidal.net/content/repositories/vidal-snapshots/</url>
+    		</snapshotRepository>
+            <site>
+                <id>github-pages-site</id>
+                <name>Deployment through GitHub's site deployment plugin</name>
+                <url>site/${project.version}</url>
+            </site>
     </distributionManagement>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <github.repo>getsentry/raven-java</github.repo>
+        <github.repo>softwarevidal/raven-java</github.repo>
         <github.global.server>github</github.global.server>
 
         <!-- maven-compiler-plugin config -->
